@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	defaultBaseURL = "https://api.airvisual.com/v2"
+	defaultBaseURL = "https://api.airvisual.com"
 )
 
 type Client struct {
