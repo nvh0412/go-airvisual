@@ -18,11 +18,25 @@ type Client struct {
 
 	BaseURL *url.URL
 
-	ContryService *CountryService
+	common service
+
+	Countries *CountryService
 }
 
 type service struct {
 	client *Client
+}
+
+func NewClient() *Client {
+	httpClient := &http.Client{}
+
+	baseURL, _ := url.Parse(defaultBaseURL)
+
+	c := &Client{client: httpClient, BaseURL: baseURL}
+
+	c.common.client = c
+	c.Countries = (*CountryService)(&c.common)
+	return c
 }
 
 func (c *Client) NewRequest(method, urlStr string) (*http.Request, error) {
