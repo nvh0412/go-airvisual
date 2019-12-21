@@ -21,6 +21,7 @@ type Client struct {
 	common service
 
 	Countries *CountryService
+	States    *StateService
 }
 
 type service struct {
@@ -36,6 +37,7 @@ func NewClient() *Client {
 
 	c.common.client = c
 	c.Countries = (*CountryService)(&c.common)
+	c.States = (*StateService)(&c.common)
 	return c
 }
 
@@ -62,7 +64,7 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*htt
 	if err != nil {
 		select {
 		case <-ctx.Done():
-			return nil, ctx.Err()
+			return nil, err
 		default:
 		}
 	}

@@ -10,11 +10,15 @@ import (
 func main() {
 	client := airvisual.NewClient()
 
-	data, _, err := client.Countries.ListCountries(context.Background())
+	ctxBackground := context.Background()
+
+	ctx2 := context.WithValue(ctxBackground, "API_KEY", "<API_KEY>")
+
+	states, _, err := client.States.ListStates(ctx2, "Vietnam")
 
 	if err != nil {
 		fmt.Println(err)
-	} else {
-		fmt.Println(data)
 	}
+
+	fmt.Println(states)
 }

@@ -2,6 +2,7 @@ package airvisual
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 )
 
@@ -21,7 +22,12 @@ func (c Countries) String() string {
 }
 
 func (s *CountryService) ListCountries(ctx context.Context) (*Countries, *http.Response, error) {
-	req, err := s.client.NewRequest("GET", "v2/countries?key=")
+	api_key := ctx.Value("API_KEY")
+	if api_key == nil {
+		return nil, nil, nil
+	}
+
+	req, err := s.client.NewRequest("GET", fmt.Sprintf("%s%s", "v2/countries?key=", api_key))
 	if err != nil {
 		return nil, nil, err
 	}
